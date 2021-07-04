@@ -8,8 +8,8 @@ import os
 import sys
 import httplib2
 
-from apiclient.discovery import build
-from apiclient.errors import HttpError
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from oauth2client.file import Storage
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.tools import argparser, run_flow
@@ -67,7 +67,7 @@ def unset_watermark(youtube, channel_id):
   try:
     youtube.watermarks().unset(channelId=channel_id).execute()
   except HttpError as e:
-    print "Error while unsetting watermark: %s" % e.content
+    print ("Error while unsetting watermark: %s" % e.content)
     raise e
 
 
@@ -83,4 +83,4 @@ if __name__ == "__main__":
   youtube = get_authenticated_service(args)
 
   unset_watermark(youtube, args.channelid)
-  print "The watermark was successfully unset."
+  print ("The watermark was successfully unset.")

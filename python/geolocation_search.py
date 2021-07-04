@@ -17,7 +17,7 @@ from googleapiclient.errors import HttpError
 # tab of
 #   https://cloud.google.com/console
 # Please ensure that you have enabled the YouTube Data API for your project.
-DEVELOPER_KEY = 'REPLACE_ME'
+DEVELOPER_KEY = 'AIzaSyDgv9ymwbAPSMXC8kFemMceI1bCF31JOug'
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 
@@ -57,18 +57,19 @@ def youtube_search(options):
                               video_result['recordingDetails']['location']['latitude'],
                               video_result['recordingDetails']['location']['longitude']))
 
-  print 'Videos:\n', '\n'.join(videos), '\n'
+  print('Videos:\n', '\n'.join(videos), '\n')
 
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('--q', help='Search term', default='Google')
-  parser.add_argument('--location', help='Location', default='37.42307,-122.08427')
+  # parser.add_argument('--location', help='Location', default='37.42307,-122.08427')
+  parser.add_argument('--location', help='Location', default='37.5326,127.024612')
   parser.add_argument('--location-radius', help='Location radius', default='5km')
   parser.add_argument('--max-results', help='Max results', default=25)
   args = parser.parse_args()
 
   try:
     youtube_search(args)
-  except HttpError, e:
-    print 'An HTTP error %d occurred:\n%s' % (e.resp.status, e.content)
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))

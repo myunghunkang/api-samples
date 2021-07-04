@@ -96,7 +96,7 @@ def set_channel_section_localization(youtube, args):
 
   if (args.default_language and
       args.default_language == update_result['snippet']['defaultLanguage']):
-    print 'Updated default language to %s.' % args.default_language
+    print ('Updated default language to %s.' % args.default_language)
 
 # Call the API's channelSections.list method to retrieve an existing channel section localization.
 # If the localized text is not available in the requested language,
@@ -131,7 +131,7 @@ def list_channel_section_localizations(youtube, args):
       print('The channel section title is \'%s\' in language \'%s\'.' %
             (localization['title'], language))
   else:
-    print 'This channel section does not have localizations yet.'
+    print ('This channel section does not have localizations yet.')
 
 # Call the API's channelSections.list method to list localizations for all
 # channel sections in the authorizing user\'s channel. This function might
@@ -147,11 +147,11 @@ def list_my_channel_section_localizations(youtube, args):
 
   for i in range(0, len(results['items'])):
     item = results['items'][i]
-    print str(item['snippet']['position']) + ':'
-    print '    ID: ' + item['id']
-    print '    Type: ' + item['snippet']['type']
+    print (str(item['snippet']['position']) + ':')
+    print ('    ID: ' + item['id'])
+    print ('    Type: ' + item['snippet']['type'])
     if ('title' in item['snippet'] and item['snippet']['title']):
-      print '    Title: ' + str(item['snippet']['title'])
+      print ('    Title: ' + str(item['snippet']['title']))
 
     if 'localizations' in results['items'][i]:
       localizations = results['items'][i]['localizations']
@@ -209,5 +209,5 @@ if __name__ == '__main__':
         list_channel_section_localizations(youtube, args)
     else:
       exit('Please specify a valid action using the --action= parameter.')
-  except HttpError, e:
-    print 'An HTTP error %d occurred:\n%s' % (e.resp.status, e.content)
+  except HttpError as e:
+    print ('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))

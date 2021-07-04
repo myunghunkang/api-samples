@@ -10,8 +10,8 @@ import os
 import sys
 import httplib2
 
-from apiclient.discovery import build
-from apiclient.errors import HttpError
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from oauth2client.file import Storage
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.tools import argparser, run_flow
@@ -78,7 +78,7 @@ def set_watermark(youtube, channel_id, file, metadata):
       body=metadata,
     ).execute()
   except HttpError as e:
-    print "Error while setting watermark: %s" % e.content
+    print ("Error while setting watermark: %s" % e.content)
     raise e
 
 
@@ -108,4 +108,4 @@ if __name__ == "__main__":
     exit("Please specify watermark metadata using the --metadata= parameter.")
   set_watermark(youtube, args.channelid, args.file,
                 json.loads(args.metadata))
-  print "The watermark was successfully set."
+  print ("The watermark was successfully set.")

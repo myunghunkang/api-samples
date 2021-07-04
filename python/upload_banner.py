@@ -9,16 +9,16 @@
 #
 # @author Ibrahim Ulukaya
 
-import httplib
+import http.client as httplib
 import httplib2
 import os
 import random
 import sys
 import time
 
-from apiclient.discovery import build
-from apiclient.errors import HttpError
-from apiclient.http import MediaFileUpload
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from googleapiclient.http import MediaFileUpload
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import argparser, run_flow
@@ -102,31 +102,30 @@ def resumable_upload(insert_request):
   retry = 0
   while response is None:
     try:
-      print "Uploading file..."
+      print ("Uploading file...")
       status, response = insert_request.next_chunk()
       if 'url' in response:
-        print "Banner was successfully uploaded to '%s'." % (
-          response['url'])
+        print ("Banner was successfully uploaded to '%s'." % (response['url']))
       else:
         exit("The upload failed with an unexpected response: %s" % response)
-    except HttpError, e:
+    except HttpError as e:
       if e.resp.status in RETRIABLE_STATUS_CODES:
         error = "A retriable HTTP error %d occurred:\n%s" % (e.resp.status,
                                                              e.content)
       else:
         raise
-    except RETRIABLE_EXCEPTIONS, e:
+    except RETRIABLE_EXCEPTIONS as e:
       error = "A retriable error occurred: %s" % e
 
     if error is not None:
-      print error
+      print (error)
       retry += 1
       if retry > MAX_RETRIES:
         exit("No longer attempting to retry.")
 
       max_sleep = 2 ** retry
       sleep_seconds = random.random() * max_sleep
-      print "Sleeping %f seconds and then retrying..." % sleep_seconds
+      print ("Sleeping %f seconds and then retrying..." % sleep_seconds)
       time.sleep(sleep_seconds)
 
   return response['url']
@@ -165,7 +164,7 @@ if __name__ == "__main__":
   youtube = get_authenticated_service(args)
   try:
     upload_banner(youtube, args.file)
-  except HttpError, e:
-    print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+  except HttpError as e:
+    print ("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
   else:
-    print "The custom banner was successfully uploaded."
+    print ("The custom banner was successfully uploaded.")

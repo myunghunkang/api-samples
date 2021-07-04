@@ -22,7 +22,7 @@ from oauth2client.tools import argparser, run_flow
 # For more information about the client_secrets.json file format, see:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 
-CLIENT_SECRETS_FILE = "client_secrets.json"
+CLIENT_SECRETS_FILE = "client_secret.json"
 
 # This variable defines a message to display if the CLIENT_SECRETS_FILE is
 # missing.
@@ -101,8 +101,8 @@ if __name__ == '__main__':
   youtube = get_authenticated_service(args)
   try:
     add_featured_video(youtube, args)
-  except HttpError, e:
-    print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+  except HttpError as e:
+    print("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
   else:
-    print "Added featured video %s to channel %s." % (
-      args.video_id, args.channel_id)
+    print("Added featured video %s to channel %s." % (
+      args.video_id, args.channel_id))
